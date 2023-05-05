@@ -18,5 +18,4 @@ Sanic 是 Python3.7+ Web 服务器和 Web 框架，旨在提高性能。它允�
 
 ## 2 快速入门
 
-教程地址：
-
+教程地址：[https://www.couragesteak.com/article/331](https://www.couragesteak.com/article/331)
