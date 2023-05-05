@@ -1,0 +1,59 @@
+# 1 部署信息
+apiVersion: apps/v1
+kind: Deployment # 采用deployment部署
+metadata:
+  name: sanic_demo
+  namespace: default # 默认命名空间
+  labels:
+    app: sanic_demo
+spec:
+  replicas: 1 # 副本设置1个
+  selector:
+    matchLabels:
+      app: sanic_demo
+  template:
+    metadata:
+      labels:
+        app: sanic_demo
+    spec:
+      containers: #容器相关配置
+        - name: sanic_demo
+          image: cs/sanic_demo:1.1 # 镜像地址
+          command: ["python", "main.py"]
+          ports: # 容器暴露端口
+            - containerPort: 80
+          resources:  # 容器所要使用的资源
+            requests:
+              cpu: "1000m"
+              memory: "1Gi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+
+---
+
+# service 信息 --- 同部署关联
+apiVersion: v1
+kind: Service
+metadata:
+  name: sanic_demo-service
+spec:
+  selector: # ====对应
+    app: sanic_demo # 指向pod
+  type: NodePort  # 通过端口开放服务 默认ClusterIP
+  ports:
+    - name: web
+      port: 80
+      protocol: TCP
+#      targetPort: 80 # 容器端口
+      nodePort: 30003  # 对外暴露端口
+
+
+
+
+
+
+
+
+
+
